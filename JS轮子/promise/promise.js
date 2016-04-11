@@ -1,4 +1,5 @@
 class $Promise {
+
   constructor(task) {
     if (typeof task != 'function' && task !== undefined) {
       throw new TypeError()

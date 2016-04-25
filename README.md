@@ -1,7 +1,7 @@
 # Front-end-cosmic
 关于前端的一些个人心得
 
-这是我的[个人主页](www.mrcodex.com)
+这是我的[个人主页](http://mrcodex.com)
 ## javascript
 [JS轮子之Promise对象](https://github.com/niugeshenhua/Front-end-cosmic/tree/master/JS%E8%BD%AE%E5%AD%90/promise)
 ## css

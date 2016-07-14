@@ -2,7 +2,7 @@
 
 ## Less是什么
 
-> Less是一种动态样式语言, 是CSS的超集, Less赋予CSS动态语言的特性, 如: 变量, 继承, 运算, 函数. Less既可以在游览器上直接运行 (支持IE 6+, Webkit, Firefox), 也可以借助Node.js或者Rhino在服务端运行。
+> Less是一种动态样式语言, 是CSS的超集(所以可以在Less里只写css, 但是就不能发挥Less的威力了）, Less赋予CSS动态语言的特性, 如: 变量, 继承, 运算, 函数. Less既可以在游览器上直接运行 (支持IE 6+, Webkit, Firefox), 也可以借助Node.js或者Rhino在服务端运行。
 
 ## 如何使用Less?
 
@@ -43,7 +43,7 @@ less.render('.class { width: 1 + 1 }', function (e, css) {
 
 ### 3. LESS 变量
 
-Less的变量是@开头的. 比如说:
+Less的变量是@开头的. 可以用来定义颜色, 整数, 内容等等. 比如说:
 
 less文件
 
@@ -57,4 +57,34 @@ less文件
 
 ```css
 #header { color: #6c94be; }
+```
+
+### 4.混合
+
+例子:
+
+```less
+//less在css的注释基础上增加了行内注释(CSS怎么能没有行内注释呢...)
+
+@switch: light;      //声明一个变量, 值为light
+
+/**
+ * 像这样 类似于CSS的类选择器, 还可以带上(), 里面跟上参数, 就好像是一个函数,
+ * 可以在其他样式里被引用
+ * 这就是Less中的‘混合’, 如果出现多个名字相同的混合, 那就会根据匹配规则来匹配
+ * darken 是Less自带的颜色函数
+ */
+.mixin(dark, @color){
+    color: darken(@color, 10%);
+}
+
+.mixin(light, @color){
+    color: lighten(@color, 10%);
+}
+
+.myclass{
+    //引用了名为.mixin的混合 变量@switch的值为light, 因此会匹配.mixin(light, @color)
+    //.mixin的第二个参数是变量, 可以匹配任何传入的参数.
+    .mixin(@switch, #888);
+}
 ```

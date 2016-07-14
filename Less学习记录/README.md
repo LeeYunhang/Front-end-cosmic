@@ -59,9 +59,11 @@ less文件
 #header { color: #6c94be; }
 ```
 
-### 4.混合
+### 4.混合(样式的集合, 最好玩的东西之一)
 
 例子:
+
+Less样式文件
 
 ```less
 //less在css的注释基础上增加了行内注释(CSS怎么能没有行内注释呢...)
@@ -82,9 +84,93 @@ less文件
     color: lighten(@color, 10%);
 }
 
+.mixin (@_, @color) {
+  display: block;
+}
+
 .myclass{
     //引用了名为.mixin的混合 变量@switch的值为light, 因此会匹配.mixin(light, @color)
     //.mixin的第二个参数是变量, 可以匹配任何传入的参数.
+    //注意: 调用(严格来说是匹配)没有参数的混合的时候可以省略(圆括号)
+    //一次可以匹配多个混合 也可能匹配不到任何混合
     .mixin(@switch, #888);
 }
 ```
+
+编译后输出的CSS文件
+
+```css
+.class {
+  color: #a2a2a2;
+  display: block;
+}
+```
+
+用途: 对于一些经常重复出现的样式完全可以使用Less中的混合取代, 减少撸码时间. 别看暂时的代码量增加了, 在大工程里混合的作用是非常大的
+
+
+### 5.匹配混合更好的方式------导引
+
+混合的匹配规则可以让我们在匹配一个混合的时候, 可以匹配对应的混合集.
+但是如果你想要更加强大的匹配方式, 那就用导引吧.
+
+less文件
+
+```less 
+
+// 导引就是when  when里允许 出现 > >= = <= <
+.mixin (@a) when (lightness(@a) >= 50%) {
+  background-color: black;
+}
+.mixin (@a) when (lightness(@a) < 50%) {
+  background-color: white;
+}
+.mixin (@a) {
+  color: @a;
+}
+
+.class1 { .mixin(#ddd) }
+.class2 { .mixin(#555) }
+
+.mixin1(@a) when(@a = true){
+    color: #fff;
+}
+
+.mixin1(@a) when(@a){
+    background-color: @a;
+}
+
+.class3{
+    //传入true关键字, Less中除了true(布尔真值), 其他所有的值都为假.
+    .mixin1(true);
+}
+```
+
+生成的css文件
+
+```css
+.class1 {
+  background-color: black;
+  color: #ddd;
+}
+.class2 {
+  background-color: white;
+  color: #555;
+}
+.class3{
+    color: #fff;
+}
+```
+
+在Less中, 有几个函数会返回true(除了true都是false).
+
+* iscolor
+* isnumber
+* isstring
+* iskeyword    //是否是关键字
+* isurl
+* ispixel      //是否是以px结尾的数字
+* ispercentage //是否是以百分数结尾的数字
+* isem         //是否是以em结尾的数字
+
+

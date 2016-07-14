@@ -173,4 +173,49 @@ less文件
 * ispercentage //是否是以百分数结尾的数字
 * isem         //是否是以em结尾的数字
 
+```less
 
+//只有当满足两个条件的时候才会匹配这个混合
+.mixin (@a) when (isnumber(@a)) and (@a > 0) { ... }
+//或者  .mixin (@a) when (isnumber(@a)), (@a > 0) { ... }
+
+//只要满足一个条件就好 或的逻辑关系
+.mixin (@a) when not (iscolor(@a)) and (@a > 0) { ... }
+```
+
+### 6. 写出更漂亮的代码-----嵌套
+
+传统的css代码使用后代选择器的Less可以通过嵌套来实现, 这样更直观.
+
+例如CSS代码:
+
+```css
+#header { color: black; }
+#header .navigation {
+  font-size: 12px;
+}
+#header .logo { 
+  width: 300px; 
+}
+#header .logo:hover {
+  text-decoration: none;
+}
+```
+
+Less代码
+
+```less
+#header {
+  color: black;
+
+  .navigation {
+    font-size: 12px;
+  }
+  .logo {
+    width: 300px;
+    &:hover { text-decoration: none }
+  }
+}
+```
+
+其中&符号表示.logo

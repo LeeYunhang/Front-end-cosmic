@@ -1,0 +1,9 @@
+
+# less 学习
+./Less学习记录/test.js
+./Less学习记录/test.less
+./Less学习记录/result.less
+
+
+# 忽略所有node_modules
+./*/node_modules/

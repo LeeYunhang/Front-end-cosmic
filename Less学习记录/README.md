@@ -100,7 +100,7 @@ Less样式文件
 编译后输出的CSS文件
 
 ```css
-.class {
+.myclass {
   color: #a2a2a2;
   display: block;
 }

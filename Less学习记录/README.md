@@ -219,3 +219,105 @@ Less代码
 ```
 
 其中&符号表示.logo
+
+### 7. 更加灵活的玩法------运算
+
+运算是什么,　你可以在Less中对整数,　颜色,　或变量进行诸如加减乘除的运算
+
+看接下来的一组例子:
+
+```less
+//变量声明时执行运算
+@base: 5%;
+@filler: @base * 2;               // @filler = 10%
+@other: @base + @filler;          // @other  = 15%
+@var: 1px + 5;                    // @var    = 6px
+
+//常量声明时执行运算
+color: #888 / 4;                  // color   = #222    color是常量
+height: 100% / 2 + @filler;       // height  = 60%     height是常量
+
+//变量使用时执行运算
+#header{
+    border: (@var * 2) solid black;
+}
+```
+
+在Less中, 常量和变量都是声明后不可修改,　都是表达了对值的引用,　区别在于:　常量在混合里作为参数的时候,　只能
+匹配本身的值,　而变量可以匹配任意值,　这就是他们的区别.
+
+```less
+//color引用自上面代码的常量color
+.mixin(color){
+    color: color;
+}
+
+.mixin(@color){
+    background-color: @color;
+}
+
+#header{
+    .mixin(#f11);
+}
+```
+
+输出的css代码
+
+```css
+#header{
+    background-color: #f11;
+}
+```
+
+### 8.常用的函数在Less中
+
+* lighten(@color, 10%);      // 返回一个新的颜色比原来的颜色更亮10%
+* darken(@color, 10%);       // 返回一个新的颜色比原来的颜色更暗10%
+* mix(@color1, @color2);     // 返回一个由@color1, @color2混合而成的颜色
+* round(1.67);               // returns 2
+* ceil(2.4);                 // returns 3
+* floor(2.6);                // returns 2
+* percentage(0.5);           // returns 50%
+
+### 8. Less的模块化管理之Importing
+
+less的@import用于导入其他less或css文件,对于模块化管理有很大的帮助, 并且@import在编译less代码的时候就同步执行,
+引入后的文件就好像是把文件的内容复制到@import所在处.
+
+```less
+@import "lib.less";
+@import "lib";     // 或者省略less, lib也可以是css结尾的文件,
+@import "lib.css"; // 引入CSS文件, 强行加上css结尾, less不会编译这个文件.
+```
+
+### 9.剩下的知识点
+
+字符串插值, 可以帮助你将变量的值更自然的放到字符串中.
+
+```less
+@base-url: "http://assets.fnord.com";
+background-image: url("@{base-url}/images/bg.png");
+```
+
+避免被编译, less代码是需要经过编译,生成css的.有时候你不想被编译的话可以用字符串引号将不想被编译的代码包裹起来
+,然后在其前面加上～符号即可.
+
+JavaScript表达式, 在反单引号中可以嵌入JS的表达式, 比如说:
+
+```less
+@var: `"hello".toUpperCase() + '!'`;
+
+//或者这样
+@str: "hello";
+@var: ~`"@{str}".toUpperCase() + '!'`;
+```
+
+输出结果
+
+```css
+@var: HELLO!;
+```
+
+### 10.总结
+
+Less是一门轻量化的动态样式语言, 它对于前端模块化, 有很大的帮助.

@@ -132,7 +132,7 @@ less文件
 .class1 { .mixin(#ddd) }
 .class2 { .mixin(#555) }
 
-.mixin1(@a) when(@a = true){
+.mixin1(@a) when(@a = #fff){
     color: #fff;
 }
 
@@ -142,7 +142,7 @@ less文件
 
 .class3{
     //传入true关键字, Less中除了true(布尔真值), 其他所有的值都为假.
-    .mixin1(true);
+    .mixin1(#fff);
 }
 ```
 
